@@ -126,6 +126,7 @@ html, body {
     &.visible {
       height: 30%;
       margin-bottom: 1em;
+      background-color: $nav-bg;
     }
 
     @include embossed-bg;
@@ -133,6 +134,7 @@ html, body {
     li {
       margin: 1em $nav-padding;
       line-height: 1;
+      background-color: $nav-bg;
     }
 
     a {
@@ -148,6 +150,7 @@ html, body {
 
   .tocify-item>a, .toc-footer li {
     padding: 0 $nav-padding 0 $nav-padding;
+
     display: block;
     overflow-x: hidden;
     white-space: nowrap;
@@ -159,6 +162,7 @@ html, body {
   // styling of an unordered list because it is ugly.
   ul, li {
     list-style: none;
+    background-color: $nav-bg;
     margin: 0;
     padding: 0;
     line-height: 28px;
@@ -624,4 +628,12 @@ html, body {
 
 .highlight, .highlight .w {
   background-color: $code-bg;
+}
+
+.logo-wrapper {
+  padding: 10px;
+}
+
+.logo-wrapper > img {
+  max-width: 100%;
 }

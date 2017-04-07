@@ -1,14 +1,13 @@
 ---
-title: API Reference
+title: New Info Tech. FIF Empresa API
 
 language_tabs:
   - shell
   - ruby
   - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://newinfotech.com.br'>Entre em contato conosco para obter um Token de desenvolvedor</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -17,57 +16,54 @@ includes:
 search: true
 ---
 
-# Introduction
+# Iniciando com a nossa API
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Bem vindo(a) a documentação da nossa API, com essas informações você pode acessar os dados da sua empresa no nosso Banco de Dados, além de enviar e atualizar informações sobre suas cobranças nos nossos sistemas FIF (Ferramenta de Informação Financeira) e SIGF (Sistema Integrado de Gestão Financeira)
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Os exemplos aqui descritos usam bibliotecas de Cliente HTTP de terceiros, para mais informações sobre essas bibliotecas, consulte a documentação oficial do desenvolvedor.
+Os exemplos mostrados são das linguagens Shell (CURL), Ruby (rest-client), Python (requests), 
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# Autenticação
 
-# Authentication
-
-> To authorize, use this code:
+> Use o seguinte código para autorizar o acesso a nossa API:
 
 ```ruby
-require 'kittn'
+require 'rest-client'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+token = "<Seu token obtido na interface de empresa>"
+dados = RestClient.get "endpoint_de_sua_escolha", content_type: :json, Authorization: token 
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
+req = requests.Session()
+req.headers['Authorization'] = "<Seu token obtido na interface de empresa>"
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+# Em shell, só é necessário passar o cabeçalho correto
+curl "endpoint_de_sua_escolha"
+  -H "Authorization: <Seu token obtido na interface de empresa>"
 ```
 
-```javascript
-const kittn = require('kittn');
+> Não esqueça de subistituir `<Seu token obtido na interface de empresa>` com o Token obtido na página de [Configurações](https://newinfotech.com.br/empresas/#/config/integracao).
 
-let api = kittn.authorize('meowmeowmeow');
-```
+> Subistitua `endpoint_de_sua_escolha` por algum dos endpoints desta documentação.
 
-> Make sure to replace `meowmeowmeow` with your API key.
+Nossa API usa Tokens para Autenticação e Autorização do usuário, para obter um token de acesso, visite suas [Configurações](https://newinfotech.com.br/empresas/#/config/integracao).
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Para qualquer requisição autenticada a nossa API, o desenvolvedor deve usar o cabeçalho `Authorization` como abaixo:
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Token c34no3y57y8n75y845t7vywbo7858tv7vmw8`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Subistitua <code>Token c34no3y57y8n75y845t7vywbo7858tv7vmw8</code> pelo seu Token.
 </aside>
 
-# Kittens
+# Clientes
 
-## Get All Kittens
+## Obter todos os clientes
 
 ```ruby
 require 'kittn'
@@ -88,12 +84,6 @@ curl "http://example.com/api/kittens"
   -H "Authorization: meowmeowmeow"
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
 
 > The above command returns JSON structured like this:
 
@@ -116,21 +106,17 @@ let kittens = api.kittens.get();
 ]
 ```
 
-This endpoint retrieves all kittens.
+Este endpoint retorna todos os clientes vinculados a empresa.
 
-### HTTP Request
+### Requisição HTTP
 
-`GET http://example.com/api/kittens`
+`GET https://newinfotech.com.br/api/clientes`
 
-### Query Parameters
+### Parâmetros
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="notice">
+Este endpoint não aceita parâmetros
 </aside>
 
 ## Get a Specific Kitten
@@ -154,12 +140,6 @@ curl "http://example.com/api/kittens/2"
   -H "Authorization: meowmeowmeow"
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
 
 > The above command returns JSON structured like this:
 
