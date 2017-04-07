@@ -16,7 +16,6 @@ includes:
 search: true
 ---
 
-
 # Iniciando com a nossa API
 
 Bem vindo(a) a documentação da nossa API, com essas informações você pode acessar os dados da sua empresa no nosso Banco de Dados, além de enviar e atualizar informações sobre suas cobranças nos nossos sistemas FIF (Ferramenta de Informação Financeira) e SIGF (Sistema Integrado de Gestão Financeira)
@@ -67,10 +66,9 @@ Subistitua <code>Token c34no3y57y8n75y845t7vywbo7858tv7vmw8</code> pelo seu Toke
 ## Obter todos os clientes
 
 ```ruby
-require 'kittn'
+require 'rest-client'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+
 ```
 
 ```python
@@ -114,7 +112,6 @@ Este endpoint retorna todos os clientes vinculados a empresa.
 `GET https://newinfotech.com.br/api/clientes`
 
 ### Parâmetros
-
 
 <aside class="notice">
 Este endpoint não aceita parâmetros
