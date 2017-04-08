@@ -1,5 +1,5 @@
 <div align="center">
-  <img style="max-height: 70px;" src="https://ibb.co/jUJp1Q" alt="Logo New Info Tech" />
+  <img style="max-height: 70px;" src="https://s22.postimg.org/jko67vurl/new_logo.bd72278cc1cc.png" alt="Logo New Info Tech" />
 </div>
 
 # Documentação oficial de API da FIF - Ferramenta de Informação Financeira
