@@ -1,20 +1,15 @@
-# Errors
+# Erros
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
-
-The Kittn API uses the following error codes:
+A nossa API funciona com os seguintes códigos de erro:
 
 
-Error Code | Meaning
+Código do erro | Descrição
 ---------- | -------
-400 | Bad Request -- Your request sucks
-401 | Unauthorized -- Your API key is wrong
-403 | Forbidden -- The kitten requested is hidden for administrators only
-404 | Not Found -- The specified kitten could not be found
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method
-406 | Not Acceptable -- You requested a format that isn't json
-410 | Gone -- The kitten requested has been removed from our servers
-418 | I'm a teapot
-429 | Too Many Requests -- You're requesting too many kittens! Slow down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+400 | Bad Request -- Algo está errado nas informações enviadas
+401 | Unauthorized -- O Token usado é inválido ou está incorreto
+403 | Forbidden -- O endpoint acessado não está disponível para o seu nível de autorização
+404 | Not Found -- O item requisitado não foi encontrado, verifique a URL e tente novamente
+405 | Method Not Allowed -- O método usado não é suportado
+406 | Not Acceptable -- Você requisitou um formato diferente de JSON, nossa API só funciona com JSON :(
+500 | Internal Server Error -- Nosso servidor apresentou algum problema, entre em contato conosco por e-mail: contato@newinfotech.com.br.
+503 | Service Unavailable -- O nosso servidor pode estar em manutenção ou muito ocupado no momento.
