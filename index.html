@@ -235,7 +235,11 @@
 <p>Bem vindo(a) a documentação da nossa API, com essas informações você pode acessar os dados da sua empresa no nosso Banco de Dados, além de enviar e atualizar informações sobre suas cobranças nos nossos sistemas FIF (Ferramenta de Informação Financeira) e SIGF (Sistema Integrado de Gestão Financeira)</p>
 
 <p>Os exemplos aqui descritos usam bibliotecas de Cliente HTTP de terceiros, para mais informações sobre essas bibliotecas, consulte a documentação oficial do desenvolvedor.
-Os exemplos mostrados são das linguagens Shell (CURL), Ruby (rest-client), Python (requests), </p>
+Os exemplos mostrados são das linguagens Shell (CURL), Ruby (rest-client), Python (requests),</p>
+
+<blockquote>
+<p>A raiz da API é: <code class="prettyprint">https://newinfotech.com.br/api</code></p>
+</blockquote>
 
 <h1 id="autentica-o">Autenticação</h1>
 
@@ -245,8 +249,10 @@ Os exemplos mostrados são das linguagens Shell (CURL), Ruby (rest-client), Pyth
 <pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
 
 <span class="n">token</span> <span class="o">=</span> <span class="s2">"&lt;Seu token obtido na interface de empresa&gt;"</span>
-<span class="n">dados</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"endpoint_de_sua_escolha"</span><span class="p">,</span> <span class="ss">content_type: :json</span><span class="p">,</span> <span class="no">Authorization</span><span class="p">:</span> <span class="n">token</span> 
+<span class="n">api</span> <span class="o">=</span> <span class="no">RestClient</span><span class="o">::</span><span class="no">Resource</span><span class="p">.</span><span class="nf">new</span> <span class="s2">"https://newinfotech.com.br/api"</span><span class="p">,</span> <span class="ss">headers: </span><span class="p">{</span><span class="no">Authorization</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span> 
 </code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="s">'https://newinfotech.com.br/api'</span>
 
 <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"&lt;Seu token obtido na interface de empresa&gt;"</span>
@@ -255,9 +261,9 @@ curl <span class="s2">"endpoint_de_sua_escolha"</span>
   -H <span class="s2">"Authorization: &lt;Seu token obtido na interface de empresa&gt;"</span>
 </code></pre>
 <blockquote>
-<p>Não esqueça de subistituir <code class="prettyprint">&lt;Seu token obtido na interface de empresa&gt;</code> com o Token obtido na página de <a href="https://newinfotech.com.br/empresas/#/config/integracao">Configurações</a>.</p>
+<p>Subistitua <code class="prettyprint">&lt;Seu token obtido na interface de empresa&gt;</code> com o Token obtido na página de <a href="https://newinfotech.com.br/empresas/#/config/integracao">Configurações</a>.</p>
 
-<p>Subistitua <code class="prettyprint">endpoint_de_sua_escolha</code> por algum dos endpoints desta documentação.</p>
+<p>Subistitua <code class="prettyprint">endpoint_de_sua_escolha</code> pela Raiz + Endpoint o qual deseja acessar, Ex: <code class="prettyprint">https://newinfotech.com.br/api/clientes</code>.</p>
 </blockquote>
 
 <p>Nossa API usa Tokens para Autenticação e Autorização do usuário, para obter um token de acesso, visite suas <a href="https://newinfotech.com.br/empresas/#/config/integracao">Configurações</a>.</p>
@@ -274,34 +280,34 @@ Subistitua <code>Token c34no3y57y8n75y845t7vywbo7858tv7vmw8</code> pelo seu Toke
 
 <h2 id="obter-todos-os-clientes">Obter todos os clientes</h2>
 <pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
 
+<span class="c1"># ...</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'clientes/'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">clientes</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<span class="c"># ...</span>
+<span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/clientes'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/clientes"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>O comando acima retornará o seguinte JSON:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span><span class="mi">43</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"endereco"</span><span class="p">:</span><span class="w">
+   </span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cidade"</span><span class="p">:</span><span class="s2">"Arapiraca"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"estado"</span><span class="p">:</span><span class="s2">"AL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pais"</span><span class="p">:</span><span class="s2">"Brasil"</span><span class="p">},</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"cliente@dominio.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"cpf_cnpj"</span><span class="p">:</span><span class="s2">"000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"palavra_seguranca"</span><span class="p">:</span><span class="s2">"clienteps"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"celular"</span><span class="p">:</span><span class="s2">"000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nome_completo"</span><span class="p">:</span><span class="s2">"Cliente 1"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data_nascimento"</span><span class="p">:</span><span class="s2">"1993-06-14"</span><span class="p">}]</span><span class="w">
+
 </span></code></pre>
 <p>Este endpoint retorna todos os clientes vinculados a empresa.</p>
 
@@ -315,36 +321,48 @@ Subistitua <code>Token c34no3y57y8n75y845t7vywbo7858tv7vmw8</code> pelo seu Toke
 Este endpoint não aceita parâmetros
 </aside>
 
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id="obtendo-um-cliente-espec-fico">Obtendo um cliente específico</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="c1"># ...</span>
+<span class="n">cliente</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'clientes/&lt;cpf_do_cliente&gt;'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">cliente</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">cliente</span><span class="p">.</span><span class="nf">body</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<span class="c"># ...</span>
+<span class="n">cliente</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/clientes/&lt;cpf_do_cliente&gt;'</span><span class="p">)</span>
+<span class="n">cliente</span> <span class="o">=</span> <span class="n">cliente</span><span class="o">.</span><span class="n">content</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/clientes/&lt;cpf_do_cliente&gt;"</span>
+  -H <span class="s2">"Authorization: &lt;seu_token_aqui&gt;"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>O comando acima retornará o seguinte JSON:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">43</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"endereco"</span><span class="p">:</span><span class="w">
+   </span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cidade"</span><span class="p">:</span><span class="s2">"Arapiraca"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"estado"</span><span class="p">:</span><span class="s2">"AL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pais"</span><span class="p">:</span><span class="s2">"Brasil"</span><span class="p">},</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"cliente@dominio.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"cpf_cnpj"</span><span class="p">:</span><span class="s2">"000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"palavra_seguranca"</span><span class="p">:</span><span class="s2">"clienteps"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"celular"</span><span class="p">:</span><span class="s2">"000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nome_completo"</span><span class="p">:</span><span class="s2">"Cliente 1"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data_nascimento"</span><span class="p">:</span><span class="s2">"1993-06-14"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>Este endpoint retorna um cliente específico</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<blockquote>
+<p>Subistitua <code class="prettyprint">&lt;cpf_do_cliente&gt;</code> pelo CPF/CNPJ do cliente que deseja obter</p>
+</blockquote>
 
-<h3 id="http-request">HTTP Request</h3>
+<h3 id="requisi-o-http">Requisição HTTP</h3>
 
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code class="prettyprint">GET https://newinfotech.com.br/api/clientes/&lt;cpf_do_cliente&gt;</code></p>
 
 <h3 id="url-parameters">URL Parameters</h3>
 
@@ -355,66 +373,331 @@ Este endpoint não aceita parâmetros
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>cpf_do_cliente</td>
+<td>O CPF/CNPJ do cliente que se deseja obter</td>
 </tr>
 </tbody></table>
 
-          <h1 id="errors">Errors</h1>
+<h2 id="enviar-uma-lista-de-clientes">Enviar uma lista de Clientes</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&lsquo;s frontmatter. Files are included in the order listed.</aside>
+<span class="c1"># ...</span>
+<span class="c1"># É necessário ser do tipo Array</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="ss">cpf_cnpj: </span><span class="s2">"00000000000"</span><span class="p">,</span>
+  <span class="ss">nome_completo: </span><span class="s2">"Cliente 1"</span><span class="p">,</span>
+  <span class="ss">email: </span><span class="s1">'cliente@dominio.com'</span><span class="p">,</span>
+  <span class="ss">celular: </span><span class="s1">'00000000000'</span>
+<span class="p">},{</span>
+  <span class="ss">cpf_cnpj: </span><span class="s2">"00000000001"</span><span class="p">,</span>
+  <span class="ss">nome_completo: </span><span class="s2">"Cliente 2"</span><span class="p">,</span>
+  <span class="ss">email: </span><span class="s1">'cliente2@dominio.com'</span><span class="p">,</span>
+  <span class="ss">celular: </span><span class="s1">'00000000001'</span>
+<span class="p">}</span>
+<span class="c1"># ...</span>
+<span class="p">]</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'empresa/registrar_clientes/'</span><span class="p">].</span><span class="nf">post</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">clientes</span><span class="p">),</span> <span class="ss">content_type: </span><span class="s1">'application/json'</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">clientes</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<p>The Kittn API uses the following error codes:</p>
+<span class="c"># ...</span>
+<span class="c"># É necessário ser do tipo list</span>
+<span class="n">clientes</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="s">'cpf_cnpj'</span><span class="p">:</span> <span class="s">"00000000000"</span><span class="p">,</span>
+  <span class="s">'nome_completo'</span><span class="p">:</span> <span class="s">"Cliente 1"</span><span class="p">,</span>
+  <span class="s">'email'</span><span class="p">:</span> <span class="s">'cliente@dominio.com'</span><span class="p">,</span>
+  <span class="s">'celular'</span><span class="p">:</span> <span class="s">'00000000000'</span>
+<span class="p">},{</span>
+  <span class="s">'cpf_cnpj'</span><span class="p">:</span> <span class="s">"00000000001"</span><span class="p">,</span>
+  <span class="s">'nome_completo'</span><span class="p">:</span> <span class="s">"Cliente 2"</span><span class="p">,</span>
+  <span class="s">'email'</span><span class="p">:</span> <span class="s">'cliente2@dominio.com'</span><span class="p">,</span>
+  <span class="s">'celular'</span><span class="p">:</span> <span class="s">'00000000001'</span>
+<span class="p">}</span>
+<span class="c"># ...</span>
+<span class="p">]</span>
+
+<span class="n">req</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'{}/empresa/registrar_clientes/'</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">clientes</span><span class="p">)</span>
+
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/empresa/registrar_clientes/"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
+  -H <span class="s2">"Content-Type: application/json"</span>
+  -X POST -d <span class="s1">'[{"cpf_cnpj": "00000000000", "nome_completo'</span>: <span class="s2">"Cliente 1"</span>,<span class="s2">"email"</span>: <span class="s2">"cliente@dominio.com"</span>,<span class="s2">"celular"</span>: <span class="s2">"00000000000"</span>,<span class="s2">"data_nascimento"</span>: <span class="s2">"yyyy-mm-dd"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"cpf_cnpj"</span>: <span class="s2">"00000000001"</span>,<span class="s2">"nome_completo"</span>: <span class="s2">"Cliente 2"</span>,<span class="s2">"email"</span>: <span class="s2">"cliente2@dominio.com"</span>,<span class="s2">"celular"</span>: <span class="s2">"00000000001"</span>,<span class="s2">"data_nascimento"</span>: <span class="s2">"yyyy-mm-dd"</span><span class="o">}]</span><span class="s1">'
+</span></code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2 resgistros salvo(s) com sucesso"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"cont"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Use este endpoint para enviar uma lista de Clientes (Array) para o nosso sistema</p>
+
+<aside class="notice">
+Observe se a contagem de itens na resposta corresponde à quantidade de itens enviados, caso não corresponda, pode ser que exista erro em algum item enviado
+</aside>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">POST https://newinfotech.com.br/api/empresa/registrar_clientes/</code></p>
+
+<h3 id="par-metros">Parâmetros</h3>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lista_de_clientes</td>
+<td>Array com informações dos clientes a serem adicionados ao sistema</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Os dados necessários para o cadastro do Cliente estão listados no JSON abaixo:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"cpf_cnpj"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;cpf_cnpj_do_cliente&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nome_completo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;nome_do_cliente&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;email_do_cliente&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"celular"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;numero_de_celular_com_ddd&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h1 id="boletos">Boletos</h1>
+
+<h2 id="obtendo-todos-os-boletos">Obtendo todos os boletos</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'boletos/'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">boletos</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/boletos'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/boletos"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
+</code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span><span class="mi">11514</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"emissor"</span><span class="p">:</span><span class="s2">"Banco Bradesco S.A."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cliente"</span><span class="p">:</span><span class="s2">"00000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"descricao"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"valor"</span><span class="p">:</span><span class="mf">36.4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data_vencimento"</span><span class="p">:</span><span class="s2">"2016-11-02"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pago"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"create_datetime"</span><span class="p">:</span><span class="s2">"2017-04-04T04:01:39.885803Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"write_datetime"</span><span class="p">:</span><span class="s2">"2017-04-08T00:23:25.009219Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"boleto_url"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"linha_digitavel"</span><span class="p">:</span><span class="s2">"23793380295020948930627006333309169660000003640"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"baixa_manual"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"despesa"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"categoria"</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre>
+<p>Este endpoint retorna todos os boletos emitidos pela empresa.</p>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">GET https://newinfotech.com.br/api/boletos</code></p>
+
+<h3 id="par-metros">Parâmetros</h3>
+
+<aside class="notice">
+Este endpoint não aceita parâmetros
+</aside>
+
+<h2 id="obtendo-um-boleto-espec-fico">Obtendo um boleto específico</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="n">boleto</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'boletos/&lt;id&gt;'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">boleto</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">boleto</span><span class="p">.</span><span class="nf">body</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="n">boleto</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/boleto/&lt;id&gt;'</span><span class="p">)</span>
+<span class="n">boleto</span> <span class="o">=</span> <span class="n">boleto</span><span class="o">.</span><span class="n">content</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/boletos/&lt;id&gt;"</span>
+  -H <span class="s2">"Authorization: &lt;seu_token_aqui&gt;"</span>
+</code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">11514</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"emissor"</span><span class="p">:</span><span class="s2">"Banco Bradesco S.A."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cliente"</span><span class="p">:</span><span class="s2">"00000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"descricao"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"valor"</span><span class="p">:</span><span class="mf">36.4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data_vencimento"</span><span class="p">:</span><span class="s2">"2016-11-02"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pago"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"create_datetime"</span><span class="p">:</span><span class="s2">"2017-04-04T04:01:39.885803Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"write_datetime"</span><span class="p">:</span><span class="s2">"2017-04-08T00:23:25.009219Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"boleto_url"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"linha_digitavel"</span><span class="p">:</span><span class="s2">"23793380295020948930627006333309169660000003640"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"baixa_manual"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"despesa"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"categoria"</span><span class="p">:</span><span class="mi">3</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Este endpoint retorna um cliente específico</p>
+
+<blockquote>
+<p>Subistitua <code class="prettyprint">&lt;id&gt;</code> pelo ID do boleto que deseja obter</p>
+</blockquote>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">GET https://newinfotech.com.br/api/boletos/&lt;id&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>O <code class="prettyprint">id</code> do cliente que se deseja obter</td>
+</tr>
+</tbody></table>
+
+<h2 id="enviando-uma-lista-de-boletos">Enviando uma lista de boletos</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="c1"># É necessário ser do tipo Array</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="ss">cliente: </span><span class="s2">"00000000000"</span><span class="p">,</span>
+  <span class="ss">desricao: </span><span class="s2">"Boleto 1"</span><span class="p">,</span>
+  <span class="ss">linha_digitavel: </span><span class="s1">'000000000000000000000000000000000'</span>
+<span class="p">},{</span>
+  <span class="ss">cliente: </span><span class="s2">"00000000001"</span><span class="p">,</span>
+  <span class="ss">desricao: </span><span class="s2">"Boleto 2"</span><span class="p">,</span>
+  <span class="ss">linha_digitavel: </span><span class="s1">'000000000000000000000000000000001'</span>
+<span class="p">}</span>
+<span class="c1"># ...</span>
+<span class="p">]</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'empresa/registrar_boletos/'</span><span class="p">].</span><span class="nf">post</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">boletos</span><span class="p">),</span> <span class="ss">content_type: </span><span class="s1">'application/json'</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">boletos</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="c"># É necessário ser do tipo list</span>
+<span class="n">boletos</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="s">'cliente'</span><span class="p">:</span> <span class="s">"00000000000"</span><span class="p">,</span>
+  <span class="s">'desricao'</span><span class="p">:</span> <span class="s">"Boleto 1"</span><span class="p">,</span>
+  <span class="s">'linha_digitavel'</span><span class="p">:</span> <span class="s">'00000000000000000000000000000000000000'</span><span class="p">,</span>
+<span class="p">},{</span>
+  <span class="s">'cliente'</span><span class="p">:</span> <span class="s">"00000000001"</span><span class="p">,</span>
+  <span class="s">'desricao'</span><span class="p">:</span> <span class="s">"Boleto 2"</span><span class="p">,</span>
+  <span class="s">'linha_digitavel'</span><span class="p">:</span> <span class="s">'00000000000000000000000000000000000001'</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="c"># ...</span>
+<span class="p">]</span>
+
+<span class="n">req</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'{}/empresa/registrar_boletos/'</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">boletos</span><span class="p">)</span>
+
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/empresa/registrar_boletos/"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
+  -H <span class="s2">"Content-Type: application/json"</span>
+  -X POST -d <span class="s1">'[{"cliente": "00000000000", "descricao'</span>: <span class="s2">"Boleto 1"</span>, <span class="s2">"linha_digitavel"</span>: <span class="s2">"000000000000000000000000000000"</span><span class="o">}]</span><span class="s1">'
+</span></code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 resgistros salvo(s) com sucesso"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"cont"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Use este endpoint para enviar uma lista de Boletos (Array) para o nosso sistema</p>
+
+<aside class="notice">
+Observe se a contagem de itens na resposta corresponde à quantidade de itens enviados, caso não corresponda, pode ser que exista erro em algum item enviado
+</aside>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">POST https://newinfotech.com.br/api/empresa/registrar_boletos/</code></p>
+
+<h3 id="par-metros">Parâmetros</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lista_de_boletos</td>
+<td>Array com informações dos boletos a serem adicionados ao sistema</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Os dados necessários para o cadastro do Cliente estão listados no JSON abaixo:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"cliente"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;cpf_cnpj_do_cliente&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;descricao_da_cobrança&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"linha_digitavel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;linha_digitavel&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+          <h1 id="erros">Erros</h1>
+
+<p>A nossa API funciona com os seguintes códigos de erro:</p>
+
+<table><thead>
+<tr>
+<th>Código do erro</th>
+<th>Descrição</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
+<td>Bad Request &ndash; Algo está errado nas informações enviadas</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
+<td>Unauthorized &ndash; O Token usado é inválido ou está incorreto</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
+<td>Forbidden &ndash; O endpoint acessado não está disponível para o seu nível de autorização</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
+<td>Not Found &ndash; O item requisitado não foi encontrado, verifique a URL e tente novamente</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
+<td>Method Not Allowed &ndash; O método usado não é suportado</td>
 </tr>
 <tr>
 <td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
+<td>Not Acceptable &ndash; Você requisitou um formato diferente de JSON, nossa API só funciona com JSON :(</td>
 </tr>
 <tr>
 <td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+<td>Internal Server Error &ndash; Nosso servidor apresentou algum problema, entre em contato conosco por e-mail: contato@newinfotech.com.br.</td>
 </tr>
 <tr>
 <td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarily offline for maintenance. Please try again later.</td>
+<td>Service Unavailable &ndash; O nosso servidor pode estar em manutenção ou muito ocupado no momento.</td>
 </tr>
 </tbody></table>
 
