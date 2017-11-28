@@ -118,7 +118,7 @@ Este endpoint retorna todos os clientes vinculados a empresa.
 ### Parâmetros
 
 <aside class="notice">
-Este endpoint não aceita parâmetros
+Este endpoint não aceita parâmetros adicionais
 </aside>
 
 ## Obtendo um cliente específico
@@ -329,7 +329,7 @@ Este endpoint retorna todos os boletos emitidos pela empresa.
 ### Parâmetros
 
 <aside class="notice">
-Este endpoint não aceita parâmetros
+Este endpoint não aceita parâmetros adicionais
 </aside>
 
 ## Obtendo um boleto específico
@@ -347,7 +347,7 @@ boleto = JSON.parse boleto.body
 import requests
 
 # ...
-boleto = req.get('{}/boleto/<id>')
+boleto = req.get('{}/boletos/<id>')
 boleto = boleto.content
 ```
 
@@ -378,7 +378,7 @@ curl "https://newinfotech.com.br/api/boletos/<id>"
 }
 ```
 
-Este endpoint retorna um cliente específico
+Este endpoint retorna um boleto específico
 
 > Subistitua `<id>` pelo ID do boleto que deseja obter
 
@@ -390,7 +390,7 @@ Este endpoint retorna um cliente específico
 
 Parameter | Description
 --------- | -----------
-id | O `id` do cliente que se deseja obter
+id | O `id` do boleto que se deseja obter
 
 
 ## Enviando uma lista de boletos
@@ -470,12 +470,238 @@ Parameter | Description
 --------- | -----------
 lista_de_boletos | Array com informações dos boletos a serem adicionados ao sistema
 
-> Os dados necessários para o cadastro do Cliente estão listados no JSON abaixo:
+> Os dados necessários para o cadastro do boleto estão listados no JSON abaixo:
 
 ```json
 {
   "cliente": "<cpf_cnpj_do_cliente>",
   "descricao": "<descricao_da_cobrança>",
   "linha_digitavel": "<linha_digitavel>"
+}
+```
+
+# Promissórias
+
+## Obtendo todas as promissórias
+
+```ruby
+require 'rest-client'
+require 'json'
+
+# ...
+promissorias = api['promissorias/'].get
+promissorias = JSON.parse(promissorias.body)
+```
+
+```python
+import requests
+
+# ...
+req.get('{}/promissorias'.format(root))
+```
+
+```shell
+curl "https://newinfotech.com.br/api/promissorias"
+  -H "Authorization: <Seu token aqui>"
+```
+
+
+> O comando acima retornará o seguinte JSON:
+
+```json
+[
+    {
+        "id": 27575,
+        "cliente": "16023", # "CPF/CNPJ ou outro identificador usado"
+        "descricao": "Descrição da cobrança",
+        "valor": 100.0,
+        "data_vencimento": "2017-10-30",
+        "pago": false,
+        "create_datetime": "2017-10-02T20:24:45.747269Z",
+        "write_datetime": "2017-10-02T20:24:45.747300Z",
+        "valor_por_extenso": "cem reais",
+        "nome_credor": "NOME DA SUA EMPRESA",
+        "cpf_cnpj_credor": "CNPJ DA SUA EMPRESA",
+        "pagavel_em": "opcional",
+        "local_emissao": "opcional",
+        "nome_devedor": "NOME DO CLIENTE",
+        "cpf_cnpj_devedor": "CPF/CNPJ DO CLIENTE",
+        "endereco_devedor": "opcional",
+        "despesa": null,
+        "categoria": null,
+        "parceiro": "SEU ID"
+    },
+    ...
+]
+
+```
+
+Este endpoint retorna todos as promissórias cadastradas pela empresa.
+
+### Requisição HTTP
+
+`GET https://newinfotech.com.br/api/promissorias`
+
+### Parâmetros
+
+<aside class="notice">
+Este endpoint não aceita parâmetros adicionais
+</aside>
+
+## Obtendo uma promissória específica
+
+```ruby
+require 'rest-client'
+require 'json'
+
+# ...
+promissoria = api['promissorias/<id>'].get
+promissoria = JSON.parse promissoria.body
+```
+
+```python
+import requests
+
+# ...
+promissoria = req.get('{}/promissorias/<id>')
+promissoria = promissoria.content
+```
+
+```shell
+curl "https://newinfotech.com.br/api/promissorias/<id>"
+  -H "Authorization: <seu_token_aqui>"
+```
+
+
+> O comando acima retornará o seguinte JSON:
+
+```json
+{
+    "id": 27575,
+    "cliente": "16023", # "CPF/CNPJ ou outro identificador usado"
+    "descricao": "Descrição da cobrança",
+    "valor": 100.0,
+    "data_vencimento": "2017-10-30",
+    "pago": false,
+    "create_datetime": "2017-10-02T20:24:45.747269Z",
+    "write_datetime": "2017-10-02T20:24:45.747300Z",
+    "valor_por_extenso": "cem reais",
+    "nome_credor": "NOME DA SUA EMPRESA",
+    "cpf_cnpj_credor": "CNPJ DA SUA EMPRESA",
+    "pagavel_em": "opcional",
+    "local_emissao": "opcional",
+    "nome_devedor": "NOME DO CLIENTE",
+    "cpf_cnpj_devedor": "CPF/CNPJ DO CLIENTE",
+    "endereco_devedor": "opcional",
+    "despesa": null,
+    "categoria": null,
+    "parceiro": "SEU ID"
+},
+```
+
+Este endpoint retorna uma promissória específica
+
+> Subistitua `<id>` pelo ID da promissória que deseja obter
+
+### Requisição HTTP
+
+`GET https://newinfotech.com.br/api/promissorias/<id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | O `id` da promissória que se deseja obter
+
+
+## Enviando uma lista de promissorias
+
+```ruby
+require 'rest-client'
+require 'json'
+
+# ...
+# É necessário ser do tipo Array
+promissorias = [{
+  cpf_cnpj_devedor: "00000000000",
+  desricao: "Boleto 1",
+  valor: '100',
+  data_vencimento: "2017-10-30"
+},{
+  cpf_cnpj_devedor: "00000000001",
+  desricao: "Boleto 2",
+  valor: '100',
+  data_vencimento: "2017-10-30"
+}
+# ...
+]
+promissorias = api['empresa/registrar_promissorias/'].post JSON.generate(promissorias), content_type: 'application/json'
+promissorias = JSON.parse(promissorias.body)
+```
+
+```python
+import requests
+
+# ...
+# É necessário ser do tipo list
+promissorias = [{
+  'cpf_cnpj_devedor': "00000000000",
+  'desricao': "Boleto 1",
+  'valor': '100',
+  'data_vencimento': "2017-10-30"
+},{
+  'cpf_cnpj_devedor': "00000000001",
+  'desricao': "Boleto 2",
+  'valor': '100',
+  'data_vencimento': "2017-10-30"
+}
+# ...
+]
+
+req.post('{}/empresa/registrar_promissorias/', json=promissorias)
+
+```
+
+```shell
+curl "https://newinfotech.com.br/api/empresa/registrar_promissorias/"
+  -H "Authorization: <Seu token aqui>"
+  -H "Content-Type: application/json"
+  -X POST -d '[{"cpf_cnpj_devedor": "00000000000", "descricao': "Promissória 1", "valor": "100", "data_vencimento": "2017-10-30"}]'
+```
+
+
+> O comando acima retornará o seguinte JSON:
+
+```json
+{
+  "status": "1 resgistros salvo(s) com sucesso", 
+  "cont": 1
+}
+```
+
+Use este endpoint para enviar uma lista de Promissórias (Array) para o nosso sistema
+
+<aside class="notice">
+Observe se a contagem de itens na resposta corresponde à quantidade de itens enviados, caso não corresponda, pode ser que exista erro em algum item enviado, você também pode tentar enviar os itens individualmente pelo endpoint `POST https://newinfotech.com.br/api/promissorias/`
+</aside>
+
+### Requisição HTTP
+
+`POST https://newinfotech.com.br/api/empresa/registrar_promissorias/`
+
+### Parâmetros
+
+Parameter | Description
+--------- | -----------
+lista_de_promissorias | Array com informações das promissórias a serem adicionados ao sistema
+
+> Os dados necessários para o cadastro da promissória estão listados no JSON abaixo:
+
+```json
+{
+  "cpf_cnpj_devedor": "<cpf_cnpj_do_cliente>",
+  "descricao": "<descricao_da_cobrança>",
+  "Valor": "<linha_digitavel>",
+  "data_vencimento": "<data no formato ISO>"
 }
 ```
