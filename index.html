@@ -318,7 +318,7 @@ Subistitua <code>Token c34no3y57y8n75y845t7vywbo7858tv7vmw8</code> pelo seu Toke
 <h3 id="par-metros">Parâmetros</h3>
 
 <aside class="notice">
-Este endpoint não aceita parâmetros
+Este endpoint não aceita parâmetros adicionais
 </aside>
 
 <h2 id="obtendo-um-cliente-espec-fico">Obtendo um cliente específico</h2>
@@ -512,7 +512,7 @@ Observe se a contagem de itens na resposta corresponde à quantidade de itens en
 <h3 id="par-metros">Parâmetros</h3>
 
 <aside class="notice">
-Este endpoint não aceita parâmetros
+Este endpoint não aceita parâmetros adicionais
 </aside>
 
 <h2 id="obtendo-um-boleto-espec-fico">Obtendo um boleto específico</h2>
@@ -525,7 +525,7 @@ Este endpoint não aceita parâmetros
 </code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># ...</span>
-<span class="n">boleto</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/boleto/&lt;id&gt;'</span><span class="p">)</span>
+<span class="n">boleto</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/boletos/&lt;id&gt;'</span><span class="p">)</span>
 <span class="n">boleto</span> <span class="o">=</span> <span class="n">boleto</span><span class="o">.</span><span class="n">content</span>
 </code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/boletos/&lt;id&gt;"</span>
   -H <span class="s2">"Authorization: &lt;seu_token_aqui&gt;"</span>
@@ -550,7 +550,7 @@ Este endpoint não aceita parâmetros
     </span><span class="s2">"categoria"</span><span class="p">:</span><span class="mi">3</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Este endpoint retorna um cliente específico</p>
+<p>Este endpoint retorna um boleto específico</p>
 
 <blockquote>
 <p>Subistitua <code class="prettyprint">&lt;id&gt;</code> pelo ID do boleto que deseja obter</p>
@@ -570,7 +570,7 @@ Este endpoint não aceita parâmetros
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>O <code class="prettyprint">id</code> do cliente que se deseja obter</td>
+<td>O <code class="prettyprint">id</code> do boleto que se deseja obter</td>
 </tr>
 </tbody></table>
 
@@ -649,12 +649,221 @@ Observe se a contagem de itens na resposta corresponde à quantidade de itens en
 </tbody></table>
 
 <blockquote>
-<p>Os dados necessários para o cadastro do Cliente estão listados no JSON abaixo:</p>
+<p>Os dados necessários para o cadastro do boleto estão listados no JSON abaixo:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"cliente"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;cpf_cnpj_do_cliente&gt;"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;descricao_da_cobrança&gt;"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"linha_digitavel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;linha_digitavel&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h1 id="promiss-rias">Promissórias</h1>
+
+<h2 id="obtendo-todas-as-promiss-rias">Obtendo todas as promissórias</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'promissorias/'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">promissorias</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/promissorias'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/promissorias"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
+</code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">27575</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cliente"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16023"</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="s2">"CPF/CNPJ ou outro identificador usado"</span><span class="w">
+        </span><span class="s2">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descrição da cobrança"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"valor"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_vencimento"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-30"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"pago"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"create_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T20:24:45.747269Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"write_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T20:24:45.747300Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"valor_por_extenso"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cem reais"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nome_credor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NOME DA SUA EMPRESA"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpf_cnpj_credor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CNPJ DA SUA EMPRESA"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"pagavel_em"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"local_emissao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nome_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NOME DO CLIENTE"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpf_cnpj_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CPF/CNPJ DO CLIENTE"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"endereco_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"despesa"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"categoria"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"parceiro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SEU ID"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre>
+<p>Este endpoint retorna todos as promissórias cadastradas pela empresa.</p>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">GET https://newinfotech.com.br/api/promissorias</code></p>
+
+<h3 id="par-metros">Parâmetros</h3>
+
+<aside class="notice">
+Este endpoint não aceita parâmetros adicionais
+</aside>
+
+<h2 id="obtendo-uma-promiss-ria-espec-fica">Obtendo uma promissória específica</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="n">promissoria</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'promissorias/&lt;id&gt;'</span><span class="p">].</span><span class="nf">get</span>
+<span class="n">promissoria</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">promissoria</span><span class="p">.</span><span class="nf">body</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="n">promissoria</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'{}/promissorias/&lt;id&gt;'</span><span class="p">)</span>
+<span class="n">promissoria</span> <span class="o">=</span> <span class="n">promissoria</span><span class="o">.</span><span class="n">content</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/promissorias/&lt;id&gt;"</span>
+  -H <span class="s2">"Authorization: &lt;seu_token_aqui&gt;"</span>
+</code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">27575</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cliente"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16023"</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="s2">"CPF/CNPJ ou outro identificador usado"</span><span class="w">
+    </span><span class="s2">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Descrição da cobrança"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"valor"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data_vencimento"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-30"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pago"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"create_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T20:24:45.747269Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"write_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T20:24:45.747300Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"valor_por_extenso"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cem reais"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"nome_credor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NOME DA SUA EMPRESA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cpf_cnpj_credor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CNPJ DA SUA EMPRESA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pagavel_em"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"local_emissao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"nome_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NOME DO CLIENTE"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cpf_cnpj_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CPF/CNPJ DO CLIENTE"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"endereco_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opcional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"despesa"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"categoria"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"parceiro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SEU ID"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span></code></pre>
+<p>Este endpoint retorna uma promissória específica</p>
+
+<blockquote>
+<p>Subistitua <code class="prettyprint">&lt;id&gt;</code> pelo ID da promissória que deseja obter</p>
+</blockquote>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">GET https://newinfotech.com.br/api/promissorias/&lt;id&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>O <code class="prettyprint">id</code> da promissória que se deseja obter</td>
+</tr>
+</tbody></table>
+
+<h2 id="enviando-uma-lista-de-promissorias">Enviando uma lista de promissorias</h2>
+<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="c1"># ...</span>
+<span class="c1"># É necessário ser do tipo Array</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="ss">cpf_cnpj_devedor: </span><span class="s2">"00000000000"</span><span class="p">,</span>
+  <span class="ss">desricao: </span><span class="s2">"Boleto 1"</span><span class="p">,</span>
+  <span class="ss">valor: </span><span class="s1">'100'</span><span class="p">,</span>
+  <span class="ss">data_vencimento: </span><span class="s2">"2017-10-30"</span>
+<span class="p">},{</span>
+  <span class="ss">cpf_cnpj_devedor: </span><span class="s2">"00000000001"</span><span class="p">,</span>
+  <span class="ss">desricao: </span><span class="s2">"Boleto 2"</span><span class="p">,</span>
+  <span class="ss">valor: </span><span class="s1">'100'</span><span class="p">,</span>
+  <span class="ss">data_vencimento: </span><span class="s2">"2017-10-30"</span>
+<span class="p">}</span>
+<span class="c1"># ...</span>
+<span class="p">]</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="n">api</span><span class="p">[</span><span class="s1">'empresa/registrar_promissorias/'</span><span class="p">].</span><span class="nf">post</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">promissorias</span><span class="p">),</span> <span class="ss">content_type: </span><span class="s1">'application/json'</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">promissorias</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># ...</span>
+<span class="c"># É necessário ser do tipo list</span>
+<span class="n">promissorias</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="s">'cpf_cnpj_devedor'</span><span class="p">:</span> <span class="s">"00000000000"</span><span class="p">,</span>
+  <span class="s">'desricao'</span><span class="p">:</span> <span class="s">"Boleto 1"</span><span class="p">,</span>
+  <span class="s">'valor'</span><span class="p">:</span> <span class="s">'100'</span><span class="p">,</span>
+  <span class="s">'data_vencimento'</span><span class="p">:</span> <span class="s">"2017-10-30"</span>
+<span class="p">},{</span>
+  <span class="s">'cpf_cnpj_devedor'</span><span class="p">:</span> <span class="s">"00000000001"</span><span class="p">,</span>
+  <span class="s">'desricao'</span><span class="p">:</span> <span class="s">"Boleto 2"</span><span class="p">,</span>
+  <span class="s">'valor'</span><span class="p">:</span> <span class="s">'100'</span><span class="p">,</span>
+  <span class="s">'data_vencimento'</span><span class="p">:</span> <span class="s">"2017-10-30"</span>
+<span class="p">}</span>
+<span class="c"># ...</span>
+<span class="p">]</span>
+
+<span class="n">req</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'{}/empresa/registrar_promissorias/'</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">promissorias</span><span class="p">)</span>
+
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://newinfotech.com.br/api/empresa/registrar_promissorias/"</span>
+  -H <span class="s2">"Authorization: &lt;Seu token aqui&gt;"</span>
+  -H <span class="s2">"Content-Type: application/json"</span>
+  -X POST -d <span class="s1">'[{"cpf_cnpj_devedor": "00000000000", "descricao'</span>: <span class="s2">"Promissória 1"</span>, <span class="s2">"valor"</span>: <span class="s2">"100"</span>, <span class="s2">"data_vencimento"</span>: <span class="s2">"2017-10-30"</span><span class="o">}]</span><span class="s1">'
+</span></code></pre>
+<blockquote>
+<p>O comando acima retornará o seguinte JSON:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 resgistros salvo(s) com sucesso"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"cont"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Use este endpoint para enviar uma lista de Promissórias (Array) para o nosso sistema</p>
+
+<aside class="notice">
+Observe se a contagem de itens na resposta corresponde à quantidade de itens enviados, caso não corresponda, pode ser que exista erro em algum item enviado, você também pode tentar enviar os itens individualmente pelo endpoint `POST https://newinfotech.com.br/api/promissorias/`
+</aside>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">POST https://newinfotech.com.br/api/empresa/registrar_promissorias/</code></p>
+
+<h3 id="par-metros">Parâmetros</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lista_de_promissorias</td>
+<td>Array com informações das promissórias a serem adicionados ao sistema</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Os dados necessários para o cadastro da promissória estão listados no JSON abaixo:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"cpf_cnpj_devedor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;cpf_cnpj_do_cliente&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;descricao_da_cobrança&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Valor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;linha_digitavel&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data_vencimento"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;data no formato ISO&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
           <h1 id="erros">Erros</h1>
